@@ -1,11 +1,8 @@
 import express from "express";
+import { postController } from "./post.controller";
 
 const postRouter = express.Router();
 
-postRouter.post("/", (req, res) => {
-    res.json({
-        message: "Hello World!"
-    });
-});
+postRouter.post("/", postController.createPost);
 
 export default postRouter;
