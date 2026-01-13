@@ -4,8 +4,7 @@ import { Post } from "../../../generated/prisma/client";
 
 const createPost = async (req: Request, res: Response) => {
     try {
-        console.log(req.user);
-        const result = await postService.createPost(req.body as Omit<Post, "createdAt" | "updatedAt" | "id">);
+        const result = await postService.createPost(req.body as Omit<Post, "createdAt" | "updatedAt" | "id">, req?.user?.id!);
         return res.status(201).json({
             success: true,
             message: "Post Created!",

@@ -13,10 +13,10 @@ declare global {
     namespace Express {
         interface Request {
             user?: {
-                id: String,
-                email: String,
-                name: String,
-                role: String,
+                id: string,
+                email: string,
+                name: string,
+                role: string,
                 emailVerified: boolean
             }
         }
