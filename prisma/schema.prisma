@@ -74,7 +74,7 @@ model User {
 
   role   String?
   phone  String?
-  status String?
+  status String? @default("active")
 
   @@unique([email])
   @@map("user")
