@@ -72,7 +72,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
-  role   String?
+  role   String? @default("USER")
   phone  String?
   status String? @default("active")
 
