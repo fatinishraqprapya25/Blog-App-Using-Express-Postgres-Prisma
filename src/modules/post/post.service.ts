@@ -16,7 +16,17 @@ const getAllPosts = async () => {
     return result;
 }
 
+const getSinglePost = async (id: string) => {
+    const result = await prisma.post.findUnique({
+        where: {
+            id
+        }
+    })
+    return result;
+}
+
 export const postService = {
     createPost,
-    getAllPosts
+    getAllPosts,
+    getSinglePost
 }
