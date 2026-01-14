@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { postService } from "./post.service";
-import { Post } from "../../../generated/prisma/client";
+import { Post, POST_STATUS } from "../../../generated/prisma/client";
 
 const createPost = async (req: Request, res: Response) => {
     try {
@@ -27,9 +27,11 @@ const getAllPosts = async (req: Request, res: Response) => {
 
         const tags = req.query.tags ? (req.query.tags as string).split(",") : [];
 
-        const isFeatured = req.query.isFeatured ? req.query.isFeatured === "true" : undefined;
+        const isFeatured = req.query.isFeatured ? req.query.isFeatured === "true" : req.query.isFeatured === "false" ? false : undefined;
 
-        const result = await postService.getAllPosts({ search: searchString, tags, isFeatured });
+        const status = req.query.status as POST_STATUS | undefined;
+
+        const result = await postService.getAllPosts({ search: searchString, tags, isFeatured, status });
         return res.status(200).json({
             success: true,
             message: "posts retrieved successfully!",
