@@ -12,7 +12,7 @@ const createPost = async (data: Omit<Post, "createdAt" | "updatedAt" | "id">, us
     return result;
 }
 
-const getAllPosts = async ({ search, tags, isFeatured }: { search: string | undefined, tags: string[] | [], isFeatured: boolean }) => {
+const getAllPosts = async ({ search, tags, isFeatured }: { search: string | undefined, tags: string[] | [], isFeatured: boolean | undefined }) => {
     const andConditions: PostWhereInput[] = [];
 
     if (search) {
