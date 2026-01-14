@@ -31,7 +31,9 @@ const getAllPosts = async (req: Request, res: Response) => {
 
         const status = req.query.status as POST_STATUS | undefined;
 
-        const result = await postService.getAllPosts({ search: searchString, tags, isFeatured, status });
+        const authorId = req.query.authorId as string | undefined;
+
+        const result = await postService.getAllPosts({ search: searchString, tags, isFeatured, status, authorId });
         return res.status(200).json({
             success: true,
             message: "posts retrieved successfully!",
