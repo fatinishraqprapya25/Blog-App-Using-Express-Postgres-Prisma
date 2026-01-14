@@ -30,10 +30,20 @@ const getAllPosts = async (req: Request, res: Response) => {
         const isFeatured = req.query.isFeatured ? req.query.isFeatured === "true" : req.query.isFeatured === "false" ? false : undefined;
 
         const status = req.query.status as POST_STATUS | undefined;
-
         const authorId = req.query.authorId as string | undefined;
 
-        const result = await postService.getAllPosts({ search: searchString, tags, isFeatured, status, authorId });
+        // pagination
+        const page = Number(req.query.page ?? 1);
+        const limit = Number(req.query.limit ?? 2);
+
+        const skip = (page - 1) * limit;
+
+        // sort
+        const sortBy = req.query.sortBy as string | undefined;
+        const sortOrder = req.query.sortOrder as string | undefined;
+
+        const result = await postService.getAllPosts({ search: searchString, tags, isFeatured, status, authorId, skip, limit, sortBy, sortOrder });
+
         return res.status(200).json({
             success: true,
             message: "posts retrieved successfully!",
