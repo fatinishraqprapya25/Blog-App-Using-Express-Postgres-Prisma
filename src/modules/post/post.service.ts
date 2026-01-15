@@ -72,6 +72,11 @@ const getAllPosts = async ({ search, tags, isFeatured, status, authorId, skip, l
         where: {
             AND: andConditions
         },
+        orderBy: sortBy && sortOrder ? {
+            [sortBy]: sortOrder
+        } : {
+            createdAt: "desc"
+        }
     });
     return result;
 }
