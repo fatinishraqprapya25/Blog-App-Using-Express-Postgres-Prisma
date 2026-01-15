@@ -12,7 +12,7 @@ const createPost = async (data: Omit<Post, "createdAt" | "updatedAt" | "id">, us
     return result;
 }
 
-const getAllPosts = async ({ search, tags, isFeatured, status, authorId, skip, limit, sortBy, sortOrder }: { search: string | undefined, tags: string[] | [], isFeatured: boolean | undefined, status: POST_STATUS | undefined, authorId: string | undefined, skip: number, limit: number, sortBy: string, sortOrder: string }) => {
+const getAllPosts = async ({ search, tags, isFeatured, status, authorId, skip, limit, sortBy, sortOrder, page }: { search: string | undefined, tags: string[] | [], isFeatured: boolean | undefined, status: POST_STATUS | undefined, authorId: string | undefined, skip: number, limit: number, sortBy: string, sortOrder: string, page: number }) => {
 
     const andConditions: PostWhereInput[] = [];
 
@@ -76,7 +76,24 @@ const getAllPosts = async ({ search, tags, isFeatured, status, authorId, skip, l
             [sortBy]: sortOrder
         }
     });
-    return result;
+
+    const total = await prisma.post.count({
+        where: {
+            AND: andConditions
+        }
+    });
+
+    return {
+        posts: result,
+        pagination: {
+            total,
+            currentPage: page,
+            totalPage: Math.ceil(total / limit),
+            limit,
+
+
+        }
+    }
 }
 
 const getSinglePost = async (id: string) => {
